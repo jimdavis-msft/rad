@@ -1,12 +1,13 @@
-param vmName string
-param vnetName string
-param subnetName string
-@secure()
+param virtualMachineName string
+param adminUsername string
+@secure() 
 param adminPassword string
+param virtualNetworkName string
+param subnetName string
 param location string = resourceGroup().location
 
 resource virtualMachine 'Microsoft.Compute/virtualMachines@2021-04-01' = {
-  name: vmName
+  name: virtualMachineName
   location: location
   properties: {
     hardwareProfile: {
@@ -24,31 +25,30 @@ resource virtualMachine 'Microsoft.Compute/virtualMachines@2021-04-01' = {
       }
     }
     osProfile: {
-      computerName: vmName
-      adminUsername: 'adminuser'
+      computerName: virtualMachineName
+      adminUsername: adminUsername
       adminPassword: adminPassword
     }
-    networkProfile {
+    networkProfile: {
       networkInterfaces: [
         {
-          id: nic.id
+          id: networkInterface.id
         }
       ]
     }
   }
 }
 
-resource nic 'Microsoft.Network/networkInterfaces@2021-02-01' = {
-  name: '${vmName}-nic'
+resource networkInterface 'Microsoft.Network/networkInterfaces@2021-02-01' = {
+  name: '${virtualMachineName}-nic'
   location: location
   properties: {
     ipConfigurations: [
       {
         name: 'ipconfig1'
         properties: {
-          privateIPAllocationMethod: 'Dynamic'
           subnet: {
-            id: resourceId('Microsoft.Network/virtualNetworks/subnets', vnetName, subnetName)
+            id: resourceId('Microsoft.Network/virtualNetworks/subnets', virtualNetworkName, subnetName)
           }
         }
       }
