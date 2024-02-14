@@ -45,3 +45,14 @@ jobs:
           who-to-greet: 'world'
           variables: ${{ inputs.variables }}
           target-ring: ${{ inputs.target-ring }}
+
+      - name: Retrieve JumpboxPassword secret
+        uses: azure/get-keyvault-secrets@v1
+        with:
+          keyvault: "${{ fromJson(inputs.variables).KeyVaultName}}" # replace with your Key Vault name
+          secrets: "JumpboxPassword"
+        id: kv
+
+      - name: Deploy Bicep template
+        run: |
+          az deployment group create --resource-group '${{ fromJSON(inputs.variables).TargetResourceGroupCore }}' --template-file ./bicep/newVM.bicep --parameters virtualMachineName='myVM03' adminUsername='adminUser' adminPassword='${{ steps.kv.outputs.JumpboxPassword }}' virtualNetworkName='${{ fromJSON(inputs.variables).SpokeVnetName }}' subnetName='snet-privep-001'
