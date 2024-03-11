@@ -341,7 +341,8 @@ if ($null -eq $vnet) {
     Copy-Item -Path ..\Parameters\VirtualNetwork\parametersSpoke.json ..\Parameters\VirtualNetwork\parametersSpoke-temp.json
     ./Update-ParamFile.ps1 -ParametersFile ..\Parameters\VirtualNetwork\parametersSpoke-temp.json -VariablesFile ..\.ado\Template\Variable\Variables-$($vars['parameterRingN']).yml
 
-    $result = New-AzResourceGroupDeployment -Name "deploySpokeVnet" -ResourceGroupName $vars['TargetResourceGroupCore'] -TemplateFile ../ARM/VirtualNetwork/deploy.json -TemplateParameterFile ../Parameters/VirtualNetwork/parametersSpoke-temp.json -vnetName $vars['SpokeVnetName']
+    # Deploy the Bicep file
+    $result = New-AzResourceGroupDeployment -Name "deploySpokeVnet" -ResourceGroupName $vars['TargetResourceGroupCore'] -TemplateFile ../bicep/virtual-network/main.bicep -TemplateParameterFile ../Parameters/VirtualNetwork/parametersSpoke-temp.json -vnetName $vars['SpokeVnetName']
     Remove-Item -Path ..\Parameters\VirtualNetwork\parametersSpoke-temp.json
     Write-Host "`tSpoke Virtual Network created successfully."
 } else {

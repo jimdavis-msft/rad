@@ -1,7 +1,7 @@
 variables:
 
 - name: AppName
-  value: [REPLACE]
+  value: test
 
 - name: Env
   value: ring0
@@ -19,28 +19,28 @@ variables:
   value: Azure Pipelines
 
 - name: SubscriptionId
-  value: [REPLACE]
+  value: 12bbf939-9ba0-4884-9ddd-9ec927313a9c
 
 - name: TenantId
-  value: [REPLACE]
+  value: 16b3c013-d300-468d-ac64-7eda0820b6d3
 
 - name: TargetRegion
-  value: [REPLACE]
+  value: eastus
 
 - name: AdoServicePrincipalId
-  value: [REPLACE]
+  value: 70506318-9b1a-4f31-96c5-cf868476c734
 
 - name: AdoServicePrincipalObjectId
-  value: [REPLACE]
+  value: ecaaa188-3854-4cdf-9585-9d97a87af27e
 
 - name: AdoOrganizationName
-  value: [REPLACE]
+  value: LeadingEdgeDelivery
 
 - name: AdoProjectName
-  value: [REPLACE]
+  value: RAD
 
 - name: AdoRepoName
-  value: [REPLACE]
+  value: RAD
 
 - name: RepoUrl  # URL to repo that contains the pipeline that will be published
   value: https://$(AdoOrganizationName)@dev.azure.com/$(AdoOrganizationName)/$(AdoProjectName)/_git/$(AdoRepoName)
